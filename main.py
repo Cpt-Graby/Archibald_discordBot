@@ -4,13 +4,13 @@ from discord.ext import commands
 from inventory import *
 
 logger = settings.logging.getLogger("bot")
-log_channel = 1129829426922791122
+log_channel = settings.DISCORD_LOG_CHANNEL 
 
 def init_inventaire_BDE():
     inventaire = Inventory()
-    inventaire.add_item("Balisto Cereale", 0)
+    inventaire.add_item("Balisto", 0)
     inventaire.add_item("Bounty", 0)
-    inventaire.add_item("Branche Cailler", 0)
+    inventaire.add_item("Branche C", 0)
     inventaire.add_item("Coca", 0)
     inventaire.add_item("Coca Zero", 0)
     inventaire.add_item("Kit Kat", 0)
@@ -51,8 +51,8 @@ def main():
         else:
             await ctx.send(f"Doesn't exist")
 
-    @bot.command(aliases=['re'])
-    async def rendu(ctx, name: str, qty: int = 1):
+    @bot.command(aliases=['er'])
+    async def error(ctx, name: str, qty: int = 1):
         """Permet d'annoncer une erreur"""
         channel_log = bot.get_channel(log_channel)
         if (Inventaire.item_exists(name) == True):
@@ -61,15 +61,29 @@ def main():
         else:
             await ctx.send(f"Doesn't exist")
 
+    @bot.command()
+    async def list(ctx):
+        """Voici une maniere simple d'avoir les noms des elements dans
+        l'inventaire. """
+        line = "Voici la liste incluses dans l'inventaire:\n"
+        await ctx.send(f"{line}```{Inventaire.get_inventory_keys()} ```")
+
+    @bot.command(hidden=True,
+                 aliases=['add'])
+    async def add_item(ctx, name: str, qty:int = 1):
+        channel_log = bot.get_channel(log_channel)
+        if (Inventaire.item_exists(name) == False):
+            Inventaire.add_item(name, qty)
+            await channel_log.send(f"{ctx.author} - a ajoute {name}")
+        else:
+            Inventaire.add_item(name, qty)
+            await channel_log.send(f"{ctx.author} - a mis a jour {name}")
+
     @bot.command(hidden=True)
     async def reset(ctx):
         channel_log = bot.get_channel(log_channel)
         await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n{Inventaire}")
         Inventaire.reset_inventory()
-
-    @bot.command()
-    async def list(ctx):
-        await ctx.send(f"{Inventaire.get_inventory_keys}")
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 

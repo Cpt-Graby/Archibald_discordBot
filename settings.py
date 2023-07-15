@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DISCORD_CMD_CHANNEL=int(os.getenv("DISCORD_CMD_CHAN"))
+DISCORD_LOG_CHANNEL=int(os.getenv("DISCORD_LOG_CHAN"))
 DISCORD_API_SECRET=os.getenv("DISCORD_API_TOKEN")
 
 LOGGING_CONFIG = {

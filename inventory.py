@@ -30,10 +30,8 @@ class Inventory:
         name = nameup.lower()
         if qty < 0:
             pass
-        if name in self.inventory:
-            print("Already exists.\n")
+        if (name in self.inventory):
             self.inventory[name].qty_sold += qty
-            print(f"Qty: {qty} added.\n")
             pass
         item = Item(name, qty)
         self.inventory[name] = item
@@ -48,7 +46,7 @@ class Inventory:
         name = nameup.lower()
         if (qty < 0):
             pass
-        if name not in self.inventory:
+        if (name not in self.inventory):
             print("Does not exist")
             pass
         self.inventory[name].qty_sold += qty
@@ -63,7 +61,7 @@ class Inventory:
         name = nameup.lower()
         if (qty < 0):
             pass
-        if name not in self.inventory:
+        if (name not in self.inventory):
             print("Does not exist")
             pass
         if self.inventory[name].qty_sold - qty >= 0:
@@ -96,14 +94,15 @@ class Inventory:
             bool: True si l'élément existe dans l'inventaire, False sinon.
         """
         name = nameup.lower()
-        return name in self.inventory
+        return (name in self.inventory)
 
     def get_inventory_keys(self) -> str:
         """
         Renvoie une chaîne de caractères contenant toutes les clés de l'inventaire.
-
         Returns:
             str: Les clés de l'inventaire séparées par des virgules.
         """
-        keys = list(self.inventory.keys())
-        return '\n'.join(keys)
+        new_bilan = ""
+        for key in self.inventory.keys():
+            new_bilan += f"{self.inventory[key].name}\n"
+        return (new_bilan)
