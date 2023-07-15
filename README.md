@@ -18,5 +18,5 @@ Les contributions sont les bienvenues ! Si vous souhaitez apporter des améliora
 
 ## Licence
 
-Ce projet est sous licence MIT. Pour plus d'informations, veuillez consulter le fichier [LICENSE](LICENSE).
+Ce projet est sous licence  GNU GENERAL PUBLIC LICENSE. Pour plus d'informations, veuillez consulter le fichier [LICENSE](LICENSE).
 
