@@ -9,10 +9,11 @@ class Inventory:
         self.inventory = {}
         pass
 
-    def add_item(self, name: str, qty: int):
+    def add_item(self, nameup: str, qty: int):
         """
         add_item permet de rajouter des elements dans l'inventaire de l'item.
         """
+        name = nameup.lower()
         if (qty < 0):
             pass
         if (name in self.inventory):
@@ -23,7 +24,8 @@ class Inventory:
         item = Item(name, qty)
         self.inventory[name] = item
 
-    def achat_item(self, name: str, qty: int = 1):
+    def achat_item(self, nameup: str, qty: int = 1):
+        name = nameup.lower()
         if (qty < 0):
             pass
         if (name not in self.inventory):
@@ -31,7 +33,8 @@ class Inventory:
             pass
         self.inventory[name].qty_sold += qty
 
-    def correct_error(self, name: str, qty: int = 1):
+    def correct_error(self, nameup: str, qty: int = 1):
+        name = nameup.lower()
         if (qty < 0):
             pass
         if (name not in self.inventory):
@@ -47,6 +50,6 @@ class Inventory:
         return (new_bilan)
 
     def reset_inventory(self):
-        print(f"{self}")
+        #print(f"{self}")
         for key in self.inventory.keys():
             self.inventory[key].qty_sold = 0
