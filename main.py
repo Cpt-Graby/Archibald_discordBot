@@ -34,16 +34,11 @@ def main():
     async def on_ready():
         logger.info(f"User:{bot.user} (ID: {bot.user.id})")
 
-    @bot.command()
-    async def Epistart(ctx):
-        embed = discord.Embed(
-                description="Interface pour l'Epicerie",
-                title="Epicerie")
-        view = SimpleView()
-        await ctx.send(embed=embded)
-
-    @bot.command
-    async def say(ctx, what):
+    @bot.command(aliases=['a'])
+    async def achat(ctx, name: str, qty: int):
+        """Permet d'annoncer que tu achetes quelques choses aux BDE """
+        inventaire.achat_item(name, qty)
+        print(inventaire)
         await ctx.send(what)
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
