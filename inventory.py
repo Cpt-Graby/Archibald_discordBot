@@ -10,17 +10,35 @@ class Inventory:
         pass
 
     def add_item(self, name: str, qty: int):
+        """
+        add_item permet de rajouter des elements dans l'inventaire de l'item.
+        """
+        if (qty < 0):
+            pass
         if (name in self.inventory):
-            print("Already exist")
+            print("Already exist.\n")
+            self.inventory[name].qty_sold += qty
+            print(f"Qty:{qty} added.\n")
             pass
         item = Item(name, qty)
         self.inventory[name] = item
 
-    def achat_item(self, name):
-        if (name not in self.inventory):
-            print("Does exist")
+    def achat_item(self, name: str, qty: int = 1):
+        if (qty < 0):
             pass
-        self.inventory[name].qty_sold += 1
+        if (name not in self.inventory):
+            print("Does not exist")
+            pass
+        self.inventory[name].qty_sold += qty
+
+    def correct_error(self, name: str, qty: int = 1):
+        if (qty < 0):
+            pass
+        if (name not in self.inventory):
+            print("Does not exist")
+            pass
+        if (self.inventory[name].qty_sold - qty >= 0):
+            self.inventory[name].qty_sold -= qty
 
     def __str__(self):
         new_bilan = ""
