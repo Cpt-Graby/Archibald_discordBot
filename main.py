@@ -8,21 +8,27 @@ log_channel = 1129829426922791122
 
 def init_inventaire_BDE():
     inventaire = Inventory()
-
-    #Inventaire des boissons qu'on vends
-    inventaire.add_item("Coca", 0)
-    inventaire.add_item("Ice Tea citron", 0)
-    inventaire.add_item("Ice Tea peche", 0)
-    inventaire.add_item("Mate", 0)
-    inventaire.add_item("Redbull", 0)
-    inventaire.add_item("Monster", 0)
-
-    #Inventaire des boissons qu'on vends
-    inventaire.add_item("Sneakers", 0)
+    inventaire.add_item("Balisto Cereale", 0)
     inventaire.add_item("Bounty", 0)
+    inventaire.add_item("Branche Cailler", 0)
+    inventaire.add_item("Coca", 0)
+    inventaire.add_item("Coca Zero", 0)
+    inventaire.add_item("Kit Kat", 0)
+    inventaire.add_item("Knopper", 0)
+    inventaire.add_item("Kagi", 0)
+    inventaire.add_item("Maltesers", 0)
+    inventaire.add_item("Mars", 0)
+    inventaire.add_item("Mate", 0)
+    inventaire.add_item("Mentos", 0)
+    inventaire.add_item("Monster", 0)
+    inventaire.add_item("Red Bull", 0)
+    inventaire.add_item("Smarties", 0)
+    inventaire.add_item("Snickers", 0)
+    inventaire.add_item("The froid citron", 0)
+    inventaire.add_item("The froid pêche", 0)
     inventaire.add_item("Kinder Bueno", 0)
-    inventaire.add_item("Branche", 0)
-    return (inventaire)
+    inventaire.add_item("Mister Freeze", 0)
+    return inventaire
         
 def main():
     Inventaire = init_inventaire_BDE()
@@ -45,7 +51,6 @@ def main():
         else:
             await ctx.send(f"Doesn't exist")
 
-
     @bot.command(aliases=['re'])
     async def rendu(ctx, name: str, qty: int = 1):
         """Permet d'annoncer une erreur"""
@@ -61,6 +66,10 @@ def main():
         channel_log = bot.get_channel(log_channel)
         await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n{Inventaire}")
         Inventaire.reset_inventory()
+
+    @bot.command()
+    async def list(ctx):
+        await ctx.send(f"{Inventaire.get_inventory_keys}")
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 

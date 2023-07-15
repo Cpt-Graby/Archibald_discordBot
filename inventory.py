@@ -97,3 +97,13 @@ class Inventory:
         """
         name = nameup.lower()
         return name in self.inventory
+
+    def get_inventory_keys(self) -> str:
+        """
+        Renvoie une chaîne de caractères contenant toutes les clés de l'inventaire.
+
+        Returns:
+            str: Les clés de l'inventaire séparées par des virgules.
+        """
+        keys = list(self.inventory.keys())
+        return '\n'.join(keys)
