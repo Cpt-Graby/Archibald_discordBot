@@ -39,16 +39,13 @@ LOGGING_CONFIG = {
             },
         "loggers": {
             "bot": {
-                'handlers': ['console'],
-                "level": "INFO",
-                "propagate": False 
-                },
+                "handlers": ['console'], "level": "INFO", "propagate": False},
             "discord": {
                 'handlers': ['console2', "file"],
                 "level": "INFO",
                 "propagate": False 
-                }
-            }
+                },
+            },
         }
 
 dictConfig(LOGGING_CONFIG)

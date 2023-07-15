@@ -1,7 +1,7 @@
-from inventory import *
 import settings
 import discord
 from discord.ext import commands
+from inventory import *
 
 logger = settings.logging.getLogger("bot")
 
