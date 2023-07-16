@@ -82,7 +82,7 @@ def main():
     @bot.command(hidden=True)
     async def reset(ctx):
         channel_log = bot.get_channel(log_channel)
-        await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n{Inventaire}")
+        await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n```{Inventaire}```")
         Inventaire.reset_inventory()
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
