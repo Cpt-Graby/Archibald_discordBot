@@ -12,7 +12,7 @@ def init_inventaire_BDE():
     inventaire.add_item("Bounty", 0)
     inventaire.add_item("Branche C", 0)
     inventaire.add_item("Coca", 0)
-    inventaire.add_item("Coca Zero", 0)
+    inventaire.add_item("CocaZero", 0)
     inventaire.add_item("Kit Kat", 0)
     inventaire.add_item("Knopper", 0)
     inventaire.add_item("Kagi", 0)
@@ -21,13 +21,13 @@ def init_inventaire_BDE():
     inventaire.add_item("Mate", 0)
     inventaire.add_item("Mentos", 0)
     inventaire.add_item("Monster", 0)
-    inventaire.add_item("Red Bull", 0)
+    inventaire.add_item("Redbull", 0)
     inventaire.add_item("Smarties", 0)
     inventaire.add_item("Snickers", 0)
-    inventaire.add_item("The froid citron", 0)
-    inventaire.add_item("The froid pêche", 0)
-    inventaire.add_item("Kinder Bueno", 0)
-    inventaire.add_item("Mister Freeze", 0)
+    inventaire.add_item("Thefroidcitron", 0)
+    inventaire.add_item("Thefroidpêche", 0)
+    inventaire.add_item("KinderBueno", 0)
+    inventaire.add_item("MisterFreeze", 0)
     return inventaire
         
 def main():
@@ -65,7 +65,7 @@ def main():
     async def list(ctx):
         """Voici une maniere simple d'avoir les noms des elements dans
         l'inventaire. """
-        line = "Voici la liste incluses dans l'inventaire:\n"
+        line = "Voici la liste des elements inclusent dans l'inventaire:\n"
         await ctx.send(f"{line}```{Inventaire.get_inventory_keys()} ```")
 
     @bot.command(hidden=True,
