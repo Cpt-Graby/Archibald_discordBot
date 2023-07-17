@@ -44,22 +44,32 @@ def main():
     @bot.command(aliases=['a'])
     async def achat(ctx, name: str, qty: int = 1):
         """Permet d'annoncer que tu achetes quelques choses aux BDE """
+        emoji1 = '\N{THUMBS UP SIGN}'
+        emojiX = '\N{THUMBS DOWN SIGN}'
+#            or '\U0001f44d' or '👍'
         channel_log = bot.get_channel(log_channel)
         if (Inventaire.item_exists(name) == True):
             Inventaire.achat_item(name, qty)
             await channel_log.send(f"{ctx.author} - {name}: {qty} achat")
+            await ctx.message.add_reaction(emoji1)
         else:
             await ctx.send(f"Doesn't exist")
+            await ctx.message.add_reaction(emojiX)
 
     @bot.command(aliases=['er'])
     async def error(ctx, name: str, qty: int = 1):
         """Permet d'annoncer une erreur"""
         channel_log = bot.get_channel(log_channel)
+        emoji1 = '\N{THUMBS UP SIGN}'
+        emojiX = '\N{THUMBS DOWN SIGN}'
+#            or '\U0001f44d' or '👍'
         if (Inventaire.item_exists(name) == True):
             Inventaire.correct_error(name, qty)
             await channel_log.send(f"{ctx.author} - {name}: {qty} rendu")
+            await ctx.message.add_reaction(emoji1)
         else:
             await ctx.send(f"Doesn't exist")
+            await ctx.message.add_reaction(emojiX)
 
     @bot.command()
     async def list(ctx):
@@ -71,19 +81,25 @@ def main():
     @bot.command(hidden=True,
                  aliases=['add'])
     async def add_item(ctx, name: str, qty:int = 1):
+        emoji1 = '\N{THUMBS UP SIGN}'
+        emojiX = '\N{THUMBS DOWN SIGN}'
         channel_log = bot.get_channel(log_channel)
         if (Inventaire.item_exists(name) == False):
             Inventaire.add_item(name, qty)
             await channel_log.send(f"{ctx.author} - a ajoute {name}")
+            await ctx.message.add_reaction(emoji1)
         else:
             Inventaire.add_item(name, qty)
             await channel_log.send(f"{ctx.author} - a mis a jour {name}")
+            await ctx.message.add_reaction(emojiX)
 
     @bot.command(hidden=True)
     async def reset(ctx):
         channel_log = bot.get_channel(log_channel)
+        emoji1 = '\N{THUMBS UP SIGN}'
         await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n```{Inventaire}```")
         Inventaire.reset_inventory()
+        await ctx.message.add_reaction(emoji1)
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 
