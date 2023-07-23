@@ -5,15 +5,16 @@ from inventory import *
 
 logger = settings.logging.getLogger("bot")
 log_channel = settings.DISCORD_LOG_CHANNEL 
+bilan_channel = settings.DISCORD_BILAN_CHANNEL 
 
 def init_inventaire_BDE():
     inventaire = Inventory()
     inventaire.add_item("Balisto", 0)
     inventaire.add_item("Bounty", 0)
-    inventaire.add_item("Branche C", 0)
+    inventaire.add_item("BrancheC", 0)
     inventaire.add_item("Coca", 0)
     inventaire.add_item("CocaZero", 0)
-    inventaire.add_item("Kit Kat", 0)
+    inventaire.add_item("KitKat", 0)
     inventaire.add_item("Knopper", 0)
     inventaire.add_item("Kagi", 0)
     inventaire.add_item("Maltesers", 0)
@@ -25,7 +26,7 @@ def init_inventaire_BDE():
     inventaire.add_item("Smarties", 0)
     inventaire.add_item("Snickers", 0)
     inventaire.add_item("Thefroidcitron", 0)
-    inventaire.add_item("Thefroidpêche", 0)
+    inventaire.add_item("Thefroidpeche", 0)
     inventaire.add_item("KinderBueno", 0)
     inventaire.add_item("MisterFreeze", 0)
     return inventaire
@@ -95,9 +96,9 @@ def main():
 
     @bot.command(hidden=True)
     async def reset(ctx):
-        channel_log = bot.get_channel(log_channel)
+        channel_bilan = bot.get_channel(bilan_channel)
         emoji1 = '\N{THUMBS UP SIGN}'
-        await channel_log.send(f"{ctx.author} is ressetting the invertoy:\n```{Inventaire}```")
+        await channel_bilan.send(f"{ctx.author} is ressetting the invertoy:\n```{Inventaire}```")
         Inventaire.reset_inventory()
         await ctx.message.add_reaction(emoji1)
 
