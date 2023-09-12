@@ -1,0 +1,18 @@
+version: "3"
+services:
+  PythonApp:
+    container_name: PyApp
+    build: ./srcArchibald
+    env_file:
+      - .env
+    volume:
+      - SQLite:/db
+
+volumes:
+  SQLite:
+    driver: local
+    name: SQLite
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db
