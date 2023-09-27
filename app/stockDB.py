@@ -20,10 +20,10 @@ class Product:
         Returns:
             str: The inventory items and their quantities sold.
         """
-        new_bilan = ""
+        new_bilan = "name | stock | sold | price\n"
         rows = self.read_table()
         for key in rows:
-            new_bilan += f"{key[0]}: In stock:{key[1]}- sold:{key[2]} price:{key[3]}\n"
+            new_bilan += f"{key[0]}| {key[1]} | {key[2]} | {key[3]}\n"
         return new_bilan
 
     def _create_table(self):
@@ -142,6 +142,21 @@ class Product:
             return 2
         actualStock = item[1];
         self._update_buy(item[0], actualStock + qty)
+        return 0
+
+    def refill_item(self, nameup: str, qty: int = 1):
+        """
+        An item has been sold qty time
+        Args:
+            nameup (str): The name of the item.
+            qty (int): The quantity to add to the quantity sold. Default is 1.
+        """
+        item = self._get_row_by_name(nameup)
+        if (not item):
+            return 1
+        if (qty < 0):
+            return 2
+        self._update_buy(item[0], qty)
         return 0
 
 if __name__ == "__main__":

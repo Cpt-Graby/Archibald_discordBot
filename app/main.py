@@ -10,26 +10,26 @@ bilan_channel = settings.DISCORD_BILAN_CHANNEL
 
 def init_stock_DB():
     stock = Product()
-    stock.add_item("Balisto", 100, 0, 1.0)
-    stock.add_item("Bounty", 100, 0, 1.0)
-    stock.add_item("BrancheC", 100, 0, 1.0)
-    stock.add_item("Coca", 100, 0, 1.0)
-    stock.add_item("CocaZero", 100, 0, 1.0)
-    stock.add_item("KitKat", 100, 0, 1.0)
-    stock.add_item("Knopper", 100, 0, 1.0)
-    stock.add_item("Kagi", 100, 0, 1.0)
-    stock.add_item("Maltesers", 100, 0, 1.0)
-    stock.add_item("Mars", 100, 0, 1.0)
-    stock.add_item("Mate", 100, 0, 2.0)
-    stock.add_item("Mentos", 100, 0, 1.0)
-    stock.add_item("Monster", 100, 0, 2.0)
-    stock.add_item("Redbull", 100, 0, 2.0)
-    stock.add_item("Smarties", 100, 0, 1.0)
-    stock.add_item("Snickers", 100, 0, 1.0)
-    stock.add_item("Thefroidcitron", 100, 0, 1.0)
-    stock.add_item("Thefroidpeche", 100, 0, 1.0)
-    stock.add_item("KinderBueno", 100, 0, 1.0)
-    stock.add_item("MisterFreeze", 100, 0, 1.0)
+    stock.add_item("Balisto", 0, 0, 1.0)
+    stock.add_item("Bounty", 0, 0, 1.0)
+    stock.add_item("BrancheC", 0, 0, 1.0)
+    stock.add_item("Coca", 0, 0, 1.0)
+    stock.add_item("CocaZero", 0, 0, 1.0)
+    stock.add_item("KitKat", 0, 0, 1.0)
+    stock.add_item("Knopper", 0, 0, 1.0)
+    stock.add_item("Kagi", 0, 0, 1.0)
+    stock.add_item("Maltesers", 0, 0, 1.0)
+    stock.add_item("Mars", 0, 0, 1.0)
+    stock.add_item("Mate", 0, 0, 2.0)
+    stock.add_item("Mentos", 0, 0, 1.0)
+    stock.add_item("Monster", 0, 0, 2.0)
+    stock.add_item("Redbull", 0, 0, 2.0)
+    stock.add_item("Smarties", 0, 0, 1.0)
+    stock.add_item("Snickers", 0, 0, 1.0)
+    stock.add_item("Thefroidcitron", 0, 0, 1.0)
+    stock.add_item("Thefroidpeche", 0, 0, 1.0)
+    stock.add_item("KinderBueno", 0, 0, 1.0)
+    stock.add_item("MisterFreeze", 0, 0, 1.0)
 
     print(stock)
     return stock
@@ -41,6 +41,9 @@ def main():
     intents = discord.Intents.default()
     intents.message_content = True
     bot = commands.Bot(command_prefix="/", intents=intents)
+    emoji1 = '\N{THUMBS UP SIGN}'
+    emojiX = '\N{THUMBS DOWN SIGN}'
+#            or '\U0001f44d' or '👍'
 
     @bot.event
     async def on_ready():
@@ -49,9 +52,6 @@ def main():
     @bot.command(aliases=['a'])
     async def achat(ctx, name: str, qty: int = 1):
         """Permet d'annoncer que tu achetes quelques choses aux BDE """
-        emoji1 = '\N{THUMBS UP SIGN}'
-        emojiX = '\N{THUMBS DOWN SIGN}'
-#            or '\U0001f44d' or '👍'
         channel_log = bot.get_channel(log_channel)
         if (Stock.achat_item(name, qty) == 0):
             await channel_log.send(f"{ctx.author} - {name}: {qty} achat")
@@ -64,9 +64,6 @@ def main():
     async def error(ctx, name: str, qty: int = 1):
         """Permet d'annoncer une erreur"""
         channel_log = bot.get_channel(log_channel)
-        emoji1 = '\N{THUMBS UP SIGN}'
-        emojiX = '\N{THUMBS DOWN SIGN}'
-#            or '\U0001f44d' or '👍'
         if (Stock.correct_error(name, qty) == 0):
             await channel_log.send(f"{ctx.author} - {name}: {qty} rendu")
             await ctx.message.add_reaction(emoji1)
@@ -79,24 +76,34 @@ def main():
         """Voici une maniere simple d'avoir les noms des elements dans
         l'inventaire. """
         line = "Voici la liste des elements inclusent dans l'inventaire:\n"
-        await ctx.send(f"{line}```{Stock.read_table()} ```")
+        await ctx.send(f"{line}```{Stock} ```")
 
     @bot.command(hidden=True,
                  aliases=['add'])
-    async def add_item(ctx, name: str, qty:int = 1):
-        emoji1 = '\N{THUMBS UP SIGN}'
-        emojiX = '\N{THUMBS DOWN SIGN}'
+    async def add_item(ctx, name: str, qty:int = 1, soldQty:int = 0,
+                       sellPrice: int = 1):
+        """
+        Permet d'ajouter un item a la basse de donnee
+        """
         channel_log = bot.get_channel(log_channel)
         if (Stock.add_item(name, stock, soldQty, sellPrice) == 0):
             await channel_log.send(f"{ctx.author} - a ajoute {name}")
             await ctx.message.add_reaction(emoji1)
 
-    @bot.command(hidden=True)
-    async def reset(ctx):
-        channel_bilan = bot.get_channel(bilan_channel)
-        emoji1 = '\N{THUMBS UP SIGN}'
-        await channel_bilan.send(f"{ctx.author} is ressetting the invertoy:\n```{Inventaire}```")
-        await ctx.message.add_reaction(emoji1)
+    @bot.command(hidden=True, aliases=['course'])
+    async def change_value_item(ctx, name: str, new_qty: int):
+        channel_log = bot.get_channel(log_channel)
+        return_value = Stock.refill_item(name, new_qty)
+        if (return_value == 0):
+            await channel_log.send(f"{ctx.author} - a modifier le stock de{name} a {new_qty}.")
+            await ctx.message.add_reaction(emoji1)
+        elif (return_value == 1):
+            await channel_log.send(f"{name} n'existe po.")
+            await ctx.message.add_reaction(emojiX)
+        else:
+            await channel_log.send(f"{new_qty} fou la merde.")
+            await ctx.message.add_reaction(emojiX)
+
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 
