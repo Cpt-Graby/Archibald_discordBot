@@ -20,10 +20,10 @@ class Product:
         Returns:
             str: The inventory items and their quantities sold.
         """
-        new_bilan = "name | stock | sold | price\n"
+        new_bilan = "{:<15} | {:<5} | {}\n".format("Name", "Stock", "Price")
         rows = self.read_table()
         for key in rows:
-            new_bilan += f"{key[0]}| {key[1]} | {key[2]} | {key[3]}\n"
+            new_bilan += "{:<15} | {:<5} | {}\n".format(key[0], key[1], key[2])
         return new_bilan
 
     def _create_table(self):
@@ -37,7 +37,6 @@ class Product:
         sqlite_create_table_query = '''CREATE TABLE IF NOT EXISTS products(
                             name TEXT NOT NULL PRIMARY KEY,
                             stockQty INTEGER,
-                            sellQty INTEGER,
                             sellPrice REAL);'''
         self.cursor.execute(sqlite_create_table_query)
         self.connection.commit()
@@ -91,7 +90,7 @@ class Product:
         rows = self.cursor.fetchall()
         return (rows)
 
-    def add_item(self, name: str, stock: int, soldQty: int, sellPrice: float):
+    def add_item(self, name: str, stock: int, sellPrice: float):
         """
         Adds items to the stockDB .
         Args:
@@ -100,12 +99,14 @@ class Product:
             sellQty (int): the quantity that was sold since last time
             sellPrice (float): the price of the item that is add
         """
-        if (stock < 0 or sellPrice < 0 or soldQty < 0):
+        if (stock < 0 or sellPrice < 0):
             return -1
-        item = (name.lower(), stock, soldQty, sellPrice)
+        item = (name.lower(), stock, sellPrice)
+        if (self._get_row_by_name(name.lower())):
+            return 1
         sqlite_insert_query = """INSERT OR IGNORE INTO products(
-                            name, stockQty, sellQty, sellPrice)
-                            VALUES (?, ?, ?, ?);"""
+                            name, stockQty, sellPrice)
+                            VALUES (?, ?, ?);"""
         self.cursor.execute(sqlite_insert_query, item)
         self.connection.commit()
         return 0
